@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  ev_app:
+    build: .
+    container_name: ev_analysis_app
+    volumes:
+      - .:/app
+    command: python main.py
+
+  ev_tests:
+    build: .
+    container_name: ev_analysis_tests
+    volumes:
+      - .:/app
+    command: pytest test_ev_analysis.py --maxfail=1 --disable-warnings -v

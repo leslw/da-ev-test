@@ -1,54 +1,132 @@
-# Docker Dev Env for Python Flask
+---
 
-# Running tests
+# ⚡ Electric Vehicle Population Analysis
 
-This command builds a docker image with the code of this repository and runs the repository's tests
+Analyze electric vehicle (EV) adoption trends across U.S. counties using a modular Python app with Docker and automated testing.
 
-```sh
-./build_docker.sh my_app
-docker run -t my_app ./run_tests.sh
-```
+---
 
-```
-[+] Building 0.1s (10/10) FINISHED                                                            docker:default
- => [internal] load build definition from Dockerfile                                                    0.0s
- => => transferring dockerfile: 248B                                                                    0.0s
- => [internal] load metadata for docker.io/library/python:3.13.2-alpine3.21@sha256:323a717dc4a010fee21  0.0s
- => [internal] load .dockerignore                                                                       0.0s
- => => transferring context: 94B                                                                        0.0s
- => [1/5] FROM docker.io/library/python:3.13.2-alpine3.21@sha256:323a717dc4a010fee21e3f1aac738ee10bb48  0.0s
- => [internal] load build context                                                                       0.0s
- => => transferring context: 253B                                                                       0.0s
- => CACHED [2/5] WORKDIR /app                                                                           0.0s
- => CACHED [3/5] COPY requirements.txt .                                                                0.0s
- => CACHED [4/5] RUN pip install --no-cache-dir -r requirements.txt                                     0.0s
- => CACHED [5/5] COPY . .                                                                               0.0s
- => exporting to image                                                                                  0.0s
- => => exporting layers                                                                                 0.0s
- => => writing image sha256:4e6c980fbf83b2131359af3d3730e61c89ae7dc85e23c151114b0d9d4a749158            0.0s
- => => naming to docker.io/library/my_app                                                               0.0s
+## 📁 Project Structure
 
-....
-----------------------------------------------------------------------
-Ran 4 tests in 0.069s
 
-OK
-```
-# Running a specific test
+ev\_analysis\_project/
+├── data/
+│   └── Electric\_Vehicle\_Population\_Size\_History\_By\_County.csv
+├── ev\_analysis.py         # Core analysis logic
+├── main.py                # Main CLI app
+├── test\_ev\_analysis.py    # Unit tests using pytest
+├── requirements.txt       # Python dependencies
+├── Dockerfile             # Container setup
+└── docker-compose.yml     # Dev & test runner (optional)
 
-This example runs a single test in the class TodoTestCase, with the name "test_home"
 
-```sh
-./build_docker.sh my_app
-docker run -t my_app ./run_tests.sh TodoTestCase.test_home
-```
+---
 
-# Running a flask dev server
+## 🚀 Quickstart
 
-Run this command to enable hot reloading via docker.
+### 🔧 1. Clone and Setup
 
-```sh
-./build_docker.sh my_app
-docker run --network=host -v .:/app -t my_app flask init_db
-docker run --network=host -v .:/app -t my_app flask run
-```
+bash
+git clone <your-repo-url>
+cd ev_analysis_project
+
+
+### 📂 2. Add the Dataset
+
+Download and place this file inside the `data/` folder:
+
+* **Filename:** `Electric_Vehicle_Population_Size_History_By_County.csv`
+* **Source:** [data.gov link](https://catalog.data.gov/dataset/electric-vehicle-population-size-history-by-county)
+
+---
+
+## 🐳 Running in Docker
+
+### 🔨 Build the container
+
+bash
+docker build -t ev_analysis .
+
+### ▶️ Run the analysis
+
+bash
+docker run --rm -v $(pwd):/app ev_analysis
+
+
+### 📦 OR: Use `docker-compose`
+
+bash
+docker-compose run --rm ev_app
+
+---
+
+## 🧪 Running Tests
+
+### ✅ With Docker Compose
+
+bash
+docker-compose run --rm ev_tests
+
+
+### 🔍 Without Compose
+
+bash
+docker run --rm -v $(pwd):/app ev_analysis python main.py test
+
+
+---
+
+## 📊 What the Analysis Covers
+
+This app answers five key questions:
+
+1. **Which counties had the sharpest increase in EV percentage over time?**
+2. **Is the share of BEVs increasing compared to PHEVs?**
+3. **Is there a correlation between total vehicle count and EV percentage?**
+4. **Which counties have the highest EV adoption in trucks?**
+5. **Which states have the most uneven EV adoption across counties?**
+
+---
+
+## 🔬 Testing Coverage
+
+The included `pytest` suite ensures:
+
+* All functions return correct types and structures
+* Edge cases like missing or sparse data are handled gracefully
+* Calculations and trends are accurate
+
+---
+
+## 📌 Requirements
+
+
+pandas
+pytest
+
+
+These are included in `requirements.txt` and installed during Docker build.
+
+---
+
+## 🛠️ Customize
+
+You can extend this app by:
+
+* Adding graphs (e.g., matplotlib or seaborn)
+* Exporting results to CSV/JSON
+* Adding new analysis questions in `ev_analysis.py`
+
+---
+
+## 📜 License
+
+MIT License – Free to use, modify, and share.
+
+---
+
+## 🙌 Acknowledgments
+
+* Data from [data.wa.gov](https://catalog.data.gov/)
+* Docker and Python made it smooth 🚀
+
