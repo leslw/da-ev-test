@@ -1,0 +1,654 @@
+<title>Sweet Bear Boba · Allen, Texas</title>
+<style>
+  /* ---------- Tokens ---------- */
+  :root {
+    --ivy-shadow: #16211a;
+    --ivy-deep:   #1b271c;
+    --ivy:        #2f4530;
+    --leaf:       #5e7c4c;
+    --leaf-light: #87a56a;
+    --tea:        #f6ecd9;   /* warm tea-milk */
+    --tea-2:      #efe2c9;
+    --caramel:    #c68a4e;   /* brown sugar */
+    --caramel-dk: #a56d38;
+    --blush:      #e7b29b;   /* bear */
+    --cocoa:      #4a3527;
+
+    /* semantic tokens (light default) */
+    --bg:        #f7efdf;
+    --bg-panel:  #fbf5e9;
+    --ink:       #2c2318;
+    --ink-soft:  #6b5a44;
+    --hair:      #e4d5b8;
+    --accent:    var(--leaf);
+    --accent-dk: #4a6a3c;
+    --hero-ink:  #f4ecd6;
+    --hero-soft: #c9d6b8;
+
+    --maxw: 1120px;
+    --f-display: 'Iowan Old Style', 'Palatino Linotype', 'Palatino', 'Book Antiqua', Georgia, serif;
+    --f-round:   ui-rounded, 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', 'Quicksand', 'Segoe UI', system-ui, sans-serif;
+    --f-body:    'Avenir Next', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:       #14201a;
+      --bg-panel: #1b271f;
+      --ink:      #ede3cf;
+      --ink-soft: #b3a78e;
+      --hair:     #2f3f31;
+      --accent:   var(--leaf-light);
+      --accent-dk:#9cbd7c;
+      --tea:      #ede3cf;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:       #14201a;
+    --bg-panel: #1b271f;
+    --ink:      #ede3cf;
+    --ink-soft: #b3a78e;
+    --hair:     #2f3f31;
+    --accent:   var(--leaf-light);
+    --accent-dk:#9cbd7c;
+    --tea:      #ede3cf;
+  }
+  :root[data-theme="light"] {
+    --bg:       #f7efdf;
+    --bg-panel: #fbf5e9;
+    --ink:      #2c2318;
+    --ink-soft: #6b5a44;
+    --hair:     #e4d5b8;
+    --accent:   var(--leaf);
+    --accent-dk:#4a6a3c;
+    --tea:      #f6ecd9;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--f-body);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  h1, h2, h3 { font-family: var(--f-display); font-weight: 600; text-wrap: balance; line-height: 1.08; margin: 0; }
+  p { margin: 0; }
+  a { color: inherit; }
+  .eyebrow {
+    font-family: var(--f-round);
+    text-transform: uppercase;
+    letter-spacing: .22em;
+    font-size: .72rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* ---------- Top bar ---------- */
+  header.bar {
+    position: sticky; top: 0; z-index: 40;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+    padding: .7rem clamp(1rem, 4vw, 2.4rem);
+    background: color-mix(in srgb, var(--ivy-deep) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .brand { display: flex; align-items: center; gap: .6rem; color: var(--hero-ink); }
+  .brand .mark { width: 34px; height: 34px; flex: none; }
+  .brand b { font-family: var(--f-display); font-size: 1.12rem; letter-spacing: .01em; font-weight: 600; }
+  nav.links { display: flex; gap: 1.7rem; align-items: center; }
+  nav.links a {
+    font-family: var(--f-round); font-size: .82rem; letter-spacing: .04em;
+    text-decoration: none; color: var(--hero-soft); font-weight: 500;
+  }
+  nav.links a:hover { color: #fff; }
+  .themetoggle {
+    font-family: var(--f-round); font-size: .78rem; font-weight: 600;
+    color: var(--hero-soft); background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12); border-radius: 999px;
+    padding: .4rem .8rem; cursor: pointer;
+  }
+  .themetoggle:hover { color: #fff; border-color: rgba(255,255,255,.3); }
+  :focus-visible { outline: 2px solid var(--leaf-light); outline-offset: 3px; border-radius: 4px; }
+  @media (max-width: 720px) { nav.links a { display: none; } }
+
+  /* ---------- Hero / ivy wall ---------- */
+  .hero {
+    position: relative;
+    background: radial-gradient(120% 90% at 70% 0%, #24352a 0%, var(--ivy-deep) 45%, var(--ivy-shadow) 100%);
+    color: var(--hero-ink);
+    padding: clamp(4rem, 11vw, 8.5rem) clamp(1.2rem, 5vw, 3rem) clamp(4rem, 9vw, 7rem);
+    overflow: hidden;
+  }
+  #ivy { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: .9; }
+  .hero-inner {
+    position: relative; z-index: 2;
+    max-width: var(--maxw); margin: 0 auto;
+    display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: center;
+  }
+  @media (max-width: 860px) { .hero-inner { grid-template-columns: 1fr; text-align: left; } }
+  .hero .eyebrow { color: var(--leaf-light); }
+  .hero h1 {
+    font-size: clamp(2.7rem, 7vw, 5rem);
+    margin: .5rem 0 0;
+    letter-spacing: -0.01em;
+  }
+  .hero h1 em { font-style: italic; color: var(--blush); }
+  .hero .lede {
+    margin-top: 1.3rem; max-width: 32ch;
+    color: var(--hero-soft); font-size: clamp(1.02rem, 2.3vw, 1.2rem); line-height: 1.6;
+  }
+  .hero .place {
+    margin-top: 1.4rem; font-family: var(--f-round); font-size: .9rem; letter-spacing: .03em;
+    color: var(--hero-soft); display: flex; align-items: center; gap: .5rem;
+  }
+  .cta-row { margin-top: 2rem; display: flex; gap: .8rem; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--f-round); font-weight: 600; font-size: .92rem; letter-spacing: .02em;
+    text-decoration: none; border-radius: 999px; padding: .8rem 1.5rem; cursor: pointer;
+    display: inline-flex; align-items: center; gap: .5rem; border: 1.5px solid transparent;
+    transition: transform .15s ease, background .2s ease, color .2s ease;
+  }
+  .btn-primary { background: var(--caramel); color: #2a1c0e; }
+  .btn-primary:hover { background: #d99b5d; transform: translateY(-2px); }
+  .btn-ghost { border-color: rgba(255,255,255,.28); color: var(--hero-ink); }
+  .btn-ghost:hover { border-color: var(--leaf-light); color: #fff; transform: translateY(-2px); }
+
+  /* bear portrait in hero */
+  .bear-stage { position: relative; display: grid; place-items: center; }
+  .bear-card {
+    position: relative; width: min(340px, 78vw);
+    background: linear-gradient(180deg, #fbf5e9, #f0e2c6);
+    border-radius: 30px; padding: 1.6rem 1.6rem 1.3rem;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,.55), inset 0 0 0 1px rgba(255,255,255,.5);
+    transform: rotate(-2deg);
+  }
+  .bear-card svg { width: 100%; height: auto; display: block; }
+  .bear-tag {
+    position: absolute; bottom: -14px; right: -10px;
+    background: var(--leaf); color: #f4ecd6;
+    font-family: var(--f-round); font-weight: 700; font-size: .8rem;
+    padding: .5rem .9rem; border-radius: 999px; transform: rotate(3deg);
+    box-shadow: 0 8px 20px -6px rgba(0,0,0,.5);
+  }
+  @media (max-width: 860px) { .bear-stage { margin-top: 2.4rem; justify-items: start; } }
+
+  /* ---------- Garland strip ---------- */
+  .garland { display: block; width: 100%; height: 46px; color: var(--leaf); margin-top: -1px; }
+  .garland.flip { transform: scaleY(-1); }
+
+  /* ---------- Section shell ---------- */
+  section { padding: clamp(3.5rem, 8vw, 6.5rem) clamp(1.2rem, 5vw, 3rem); }
+  .wrap { max-width: var(--maxw); margin: 0 auto; }
+  .sec-head { max-width: 46ch; margin-bottom: 2.6rem; }
+  .sec-head h2 { font-size: clamp(1.9rem, 4.5vw, 2.9rem); margin-top: .5rem; }
+  .sec-head p { margin-top: .9rem; color: var(--ink-soft); }
+
+  /* ---------- Story ---------- */
+  .story { background: var(--bg-panel); border-block: 1px solid var(--hair); }
+  .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.6rem, 5vw, 4rem); align-items: center; }
+  @media (max-width: 820px) { .story-grid { grid-template-columns: 1fr; } }
+  .story p + p { margin-top: 1.1rem; }
+  .story .pull {
+    font-family: var(--f-display); font-style: italic; font-size: clamp(1.3rem, 3vw, 1.7rem);
+    line-height: 1.35; color: var(--ink); border-left: 3px solid var(--accent);
+    padding-left: 1.1rem; margin: 1.6rem 0;
+  }
+  .facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--hair);
+    border: 1px solid var(--hair); border-radius: 18px; overflow: hidden; }
+  .fact { background: var(--bg-panel); padding: 1.4rem 1.3rem; }
+  .fact .n { font-family: var(--f-display); font-size: 1.6rem; color: var(--accent-dk); }
+  .fact .l { font-family: var(--f-round); font-size: .78rem; letter-spacing: .04em; color: var(--ink-soft); margin-top: .2rem; }
+  .ivy-frame {
+    position: relative; border-radius: 22px; overflow: hidden;
+    background: linear-gradient(160deg, #22331f, #16211a);
+    min-height: 340px; display: grid; place-items: center; padding: 2rem;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+  }
+  #ivywall { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .ivy-frame .quote {
+    position: relative; z-index: 2; text-align: center; color: #f2ead4; max-width: 24ch;
+  }
+  .ivy-frame .quote .k { font-family: var(--f-round); letter-spacing: .05em; font-size: .8rem; color: var(--leaf-light); text-transform: uppercase; }
+  .ivy-frame .quote h3 { font-size: 1.6rem; margin-top: .5rem; }
+
+  /* ---------- Menu ---------- */
+  .menu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.4rem, 4vw, 2.4rem); align-items: start; }
+  @media (max-width: 820px) { .menu-grid { grid-template-columns: 1fr; } }
+  .menu-col {
+    background: var(--bg-panel); border: 1px solid var(--hair);
+    border-radius: 22px; padding: clamp(1.4rem, 3vw, 2.2rem);
+  }
+  .menu-col > h3 {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+    font-size: 1.5rem; padding-bottom: .9rem; border-bottom: 1px dashed var(--hair);
+  }
+  .menu-col > h3 span { font-family: var(--f-round); font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .item { display: grid; grid-template-columns: 1fr auto; gap: .3rem 1rem; padding: 1rem 0; border-bottom: 1px solid var(--hair); }
+  .item:last-child { border-bottom: 0; padding-bottom: 0; }
+  .item .name { font-weight: 600; font-size: 1.02rem; }
+  .item .name .kr { font-family: var(--f-round); color: var(--ink-soft); font-weight: 500; font-size: .82rem; margin-left: .45rem; }
+  .item .price { font-family: var(--f-round); font-variant-numeric: tabular-nums; color: var(--accent-dk); font-weight: 700; }
+  .item .desc { grid-column: 1 / -1; color: var(--ink-soft); font-size: .9rem; }
+  .item .tag {
+    grid-column: 1 / -1; justify-self: start; margin-top: .35rem;
+    font-family: var(--f-round); font-size: .68rem; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--caramel-dk); background: color-mix(in srgb, var(--caramel) 18%, transparent);
+    padding: .18rem .55rem; border-radius: 999px; font-weight: 700;
+  }
+  .menu-note { text-align: center; margin-top: 2rem; color: var(--ink-soft); font-family: var(--f-round); font-size: .86rem; }
+
+  /* ---------- Visit ---------- */
+  .visit { background: var(--ivy-deep); color: var(--hero-ink); position: relative; overflow: hidden; }
+  #ivyvisit { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .5; }
+  .visit .wrap { position: relative; z-index: 2; }
+  .visit-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(1.6rem, 5vw, 3.5rem); }
+  @media (max-width: 820px) { .visit-grid { grid-template-columns: 1fr; } }
+  .visit h2 { font-size: clamp(1.9rem, 4.5vw, 2.9rem); color: #fff; }
+  .visit .eyebrow { color: var(--leaf-light); }
+  .hours { list-style: none; padding: 0; margin: 1.4rem 0 0; }
+  .hours li { display: flex; justify-content: space-between; gap: 1rem; padding: .55rem 0; border-bottom: 1px solid rgba(255,255,255,.1); font-family: var(--f-round); font-size: .95rem; }
+  .hours li span:last-child { color: var(--hero-soft); font-variant-numeric: tabular-nums; }
+  .info-card {
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 22px; padding: 1.7rem; backdrop-filter: blur(4px);
+  }
+  .info-card h3 { color: #fff; font-size: 1.35rem; }
+  .info-card .row { display: flex; gap: .8rem; align-items: flex-start; padding: .9rem 0; border-bottom: 1px solid rgba(255,255,255,.08); }
+  .info-card .row:last-child { border-bottom: 0; }
+  .info-card .row .ic { width: 22px; height: 22px; flex: none; color: var(--leaf-light); margin-top: .15rem; }
+  .info-card .row .txt b { display: block; font-family: var(--f-round); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--hero-soft); font-weight: 700; }
+  .info-card .row .txt span { color: var(--hero-ink); }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--ivy-shadow); color: var(--hero-soft);
+    padding: 3rem clamp(1.2rem, 5vw, 3rem) 2.4rem; text-align: center;
+  }
+  footer .brand { justify-content: center; margin-bottom: 1rem; }
+  footer .socials { display: flex; gap: 1.4rem; justify-content: center; margin: 1.2rem 0; font-family: var(--f-round); font-size: .85rem; }
+  footer .socials a { text-decoration: none; color: var(--hero-soft); }
+  footer .socials a:hover { color: #fff; }
+  footer .fine { font-size: .78rem; color: #6f8570; margin-top: 1rem; font-family: var(--f-round); }
+
+  /* ---------- reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+</style>
+
+<header class="bar">
+  <a class="brand" href="#top" style="text-decoration:none">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="12" cy="10" r="5.5" fill="#c68a4e"/><circle cx="28" cy="10" r="5.5" fill="#c68a4e"/>
+      <circle cx="20" cy="22" r="13" fill="#e7b29b"/>
+      <circle cx="14.5" cy="20" r="1.8" fill="#4a3527"/><circle cx="25.5" cy="20" r="1.8" fill="#4a3527"/>
+      <ellipse cx="20" cy="25.5" rx="4.5" ry="3.5" fill="#f6ecd9"/>
+      <circle cx="20" cy="24.5" r="1.5" fill="#4a3527"/>
+      <path d="M20 26 q-2.5 2 -4 .5 M20 26 q2.5 2 4 .5" stroke="#4a3527" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+      <path d="M6 6 q4 4 8 2" stroke="#5e7c4c" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </svg>
+    <b>Sweet Bear Boba</b>
+  </a>
+  <nav class="links">
+    <a href="#story">Our Story</a>
+    <a href="#menu">Menu</a>
+    <a href="#wall">The Ivy Wall</a>
+    <a href="#visit">Visit</a>
+  </nav>
+  <button class="themetoggle" id="themeBtn" aria-label="Switch theme">🌙 Cozy</button>
+</header>
+
+<a id="top"></a>
+<section class="hero">
+  <canvas id="ivy" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <div>
+      <p class="eyebrow">Allen, Texas · off Exchange</p>
+      <h1>Warm bears,<br>cold boba,<br><em>a whole lot of cozy.</em></h1>
+      <p class="lede">A family-owned little café where the milk tea is pulled fresh and the bears come out of the oven still soft, cream tucked inside.</p>
+      <p class="place">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        Just off Exchange Parkway in Allen
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#menu">See the menu</a>
+        <a class="btn btn-ghost" href="#visit">Find us &amp; hours</a>
+      </div>
+    </div>
+    <div class="bear-stage">
+      <div class="bear-card">
+        <svg viewBox="0 0 260 240" role="img" aria-label="A cream-filled bear bun beside a cup of brown sugar bear milk">
+          <!-- boba cup -->
+          <g>
+            <rect x="150" y="86" width="78" height="120" rx="14" fill="#f3e7cf" stroke="#e0cca6" stroke-width="2"/>
+            <path d="M150 150 h78 v42 a14 14 0 0 1 -14 14 h-50 a14 14 0 0 1 -14 -14 z" fill="#caa06a"/>
+            <path d="M150 150 h78 v20 h-78 z" fill="#b98a4f" opacity=".5"/>
+            <rect x="146" y="78" width="86" height="12" rx="6" fill="#e7b29b"/>
+            <rect x="184" y="40" width="8" height="44" rx="4" fill="#8aa36f"/>
+            <circle cx="204" cy="188" r="5" fill="#3a2a1c"/><circle cx="176" cy="196" r="5" fill="#3a2a1c"/>
+            <circle cx="190" cy="182" r="5" fill="#3a2a1c"/><circle cx="212" cy="176" r="5" fill="#3a2a1c"/>
+            <circle cx="168" cy="182" r="5" fill="#3a2a1c"/>
+          </g>
+          <!-- bear bun -->
+          <g>
+            <circle cx="66" cy="70" r="20" fill="#d99f63"/><circle cx="118" cy="70" r="20" fill="#d99f63"/>
+            <circle cx="66" cy="70" r="10" fill="#e7b29b"/><circle cx="118" cy="70" r="10" fill="#e7b29b"/>
+            <circle cx="92" cy="118" r="52" fill="#e0a86b"/>
+            <path d="M40 118 a52 52 0 0 0 104 0 z" fill="#d99f63" opacity=".45"/>
+            <circle cx="76" cy="112" r="4.5" fill="#43301f"/><circle cx="108" cy="112" r="4.5" fill="#43301f"/>
+            <ellipse cx="92" cy="128" rx="14" ry="11" fill="#f6ecd9"/>
+            <circle cx="92" cy="124" r="4" fill="#43301f"/>
+            <path d="M92 128 q-4 4 -7 1 M92 128 q4 4 7 1" stroke="#43301f" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <circle cx="64" cy="128" r="6" fill="#e79f8a" opacity=".6"/><circle cx="120" cy="128" r="6" fill="#e79f8a" opacity=".6"/>
+          </g>
+        </svg>
+      </div>
+      <span class="bear-tag">filled with custard cream ✿</span>
+    </div>
+  </div>
+</section>
+<svg class="garland" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true" id="garlandTop"></svg>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="wrap story-grid">
+    <div class="reveal">
+      <p class="eyebrow">Our Story</p>
+      <h2 class="sec-head" style="margin-bottom:0">Two hands, one oven, and a hometown.</h2>
+      <p style="margin-top:1.2rem; color:var(--ink-soft)">Sweet Bear Boba is run by a husband-and-wife team who fold their Korean roots into everything on the counter — from the injeolmi dusting on a warm bun to the yuja we steep for the honey citron tea.</p>
+      <p class="pull">He grew up right here in Allen and went through Allen ISD — so opening the doors off Exchange felt a little like coming home.</p>
+      <p style="color:var(--ink-soft)">Every bear is shaped, baked, and filled by hand, in small batches, all day long. Pull up a chair under the ivy, and stay a while.</p>
+      <div class="facts" style="margin-top:1.8rem">
+        <div class="fact"><div class="n">100%</div><div class="l">Family owned &amp; operated</div></div>
+        <div class="fact"><div class="n">Est. Allen</div><div class="l">Raised in Allen ISD</div></div>
+        <div class="fact"><div class="n">Small batch</div><div class="l">Bears baked all day</div></div>
+        <div class="fact"><div class="n">Fresh-pulled</div><div class="l">Milk tea, never powder</div></div>
+      </div>
+    </div>
+    <div class="reveal ivy-frame" id="wall">
+      <canvas id="ivywall" aria-hidden="true"></canvas>
+      <div class="quote">
+        <p class="k">담쟁이 벽 · The Ivy Wall</p>
+        <h3>Come sit by the living green wall.</h3>
+        <p style="color:#cdd8bd; margin-top:.6rem; font-size:.95rem">Our whole accent wall is wrapped in lush faux ivy — the coziest corner in the shop, and everybody's favorite photo spot.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<svg class="garland flip" viewBox="0 0 1200 46" preserveAspectRatio="none" aria-hidden="true" id="garlandBot"></svg>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-left:auto;margin-right:auto;text-align:center;max-width:52ch">
+      <p class="eyebrow">The Menu</p>
+      <h2>Bear milk teas &amp; baked-to-order bears</h2>
+      <p>A little taste of what's on the board. Prices are placeholders for this mock-up.</p>
+    </div>
+    <div class="menu-grid">
+      <div class="menu-col reveal">
+        <h3>Bear Milk Teas <span>iced · boba</span></h3>
+        <div class="item">
+          <div class="name">Brown Sugar Bear Milk</div><div class="price">$6.25</div>
+          <div class="desc">Fresh milk, chewy brown-sugar boba, tiger-striped down the cup.</div>
+          <span class="tag">house favorite</span>
+        </div>
+        <div class="item">
+          <div class="name">Ivy Matcha Latte</div><div class="price">$6.00</div>
+          <div class="desc">Stone-ground matcha over cold milk — as green as the wall.</div>
+        </div>
+        <div class="item">
+          <div class="name">Honey Citron Tea <span class="kr">유자</span></div><div class="price">$5.75</div>
+          <div class="desc">Yuja marmalade steeped bright and honey-sweet, hot or iced.</div>
+        </div>
+        <div class="item">
+          <div class="name">Strawberry Bear Milk</div><div class="price">$6.25</div>
+          <div class="desc">Real strawberry purée, fresh milk, a happy pink swirl.</div>
+        </div>
+        <div class="item">
+          <div class="name">Taro Cloud</div><div class="price">$6.00</div>
+          <div class="desc">Creamy taro with a cheese-foam cap, if you're feeling it.</div>
+        </div>
+        <div class="item">
+          <div class="name">Classic Milk Tea</div><div class="price">$5.50</div>
+          <div class="desc">Black tea pulled fresh, boba, your sweetness your way.</div>
+        </div>
+      </div>
+      <div class="menu-col reveal">
+        <h3>Baked &amp; Filled Bears <span>warm · hand-shaped</span></h3>
+        <div class="item">
+          <div class="name">Custard Cream Bear</div><div class="price">$4.50</div>
+          <div class="desc">Our signature — soft milk bun, silky vanilla custard inside.</div>
+          <span class="tag">house favorite</span>
+        </div>
+        <div class="item">
+          <div class="name">Injeolmi Bear <span class="kr">인절미</span></div><div class="price">$4.75</div>
+          <div class="desc">Roasted soybean powder &amp; sweet rice cream — nutty and nostalgic.</div>
+        </div>
+        <div class="item">
+          <div class="name">Ube Dream Bear <span class="kr">우베</span></div><div class="price">$4.75</div>
+          <div class="desc">Purple yam cream, gently sweet, impossibly violet.</div>
+        </div>
+        <div class="item">
+          <div class="name">Strawberry Cream Bear</div><div class="price">$4.75</div>
+          <div class="desc">Fresh strawberry &amp; whipped cream tucked in a warm hug.</div>
+        </div>
+        <div class="item">
+          <div class="name">Matcha Red Bean Bear <span class="kr">팥</span></div><div class="price">$4.75</div>
+          <div class="desc">Earthy matcha bun, sweet red-bean center.</div>
+        </div>
+        <div class="item">
+          <div class="name">Cocoa Hug Bear</div><div class="price">$4.50</div>
+          <div class="desc">Cocoa bun with a molten chocolate-hazelnut heart.</div>
+        </div>
+      </div>
+    </div>
+    <p class="menu-note reveal">Dairy-free milks &amp; lighter sweetness always available — just ask at the counter. 🐻</p>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section class="visit" id="visit">
+  <canvas id="ivyvisit" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="visit-grid">
+      <div class="reveal">
+        <p class="eyebrow">Come Visit</p>
+        <h2>Find us just off Exchange.</h2>
+        <p style="color:var(--hero-soft); margin-top:1rem; max-width:40ch">Tucked into a corner of Allen, Texas — pull up, grab a warm bear and a cold boba, and settle in by the ivy.</p>
+        <ul class="hours">
+          <li><span>Monday – Thursday</span><span>11:00a – 8:00p</span></li>
+          <li><span>Friday – Saturday</span><span>11:00a – 9:00p</span></li>
+          <li><span>Sunday</span><span>12:00p – 6:00p</span></li>
+        </ul>
+      </div>
+      <div class="info-card reveal">
+        <h3>Sweet Bear Boba</h3>
+        <div class="row">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <div class="txt"><b>Address</b><span>Off Exchange Parkway<br>Allen, TX 75002 <em style="color:var(--hero-soft)">(mock)</em></span></div>
+        </div>
+        <div class="row">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.6a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.5-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.6 2.6.7A2 2 0 0 1 22 16.9z"/></svg>
+          <div class="txt"><b>Say hello</b><span>(214) 555-0147 <em style="color:var(--hero-soft)">(mock)</em></span></div>
+        </div>
+        <div class="row">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 8l9 6 9-6"/></svg>
+          <div class="txt"><b>Order &amp; catering</b><span>hello@sweetbearboba.com <em style="color:var(--hero-soft)">(mock)</em></span></div>
+        </div>
+        <a class="btn btn-primary" style="width:100%; justify-content:center; margin-top:1.2rem" href="#top">Plan your visit</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="brand" style="color:var(--hero-soft)">
+    <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+      <circle cx="12" cy="10" r="5.5" fill="#c68a4e"/><circle cx="28" cy="10" r="5.5" fill="#c68a4e"/>
+      <circle cx="20" cy="22" r="13" fill="#e7b29b"/>
+      <circle cx="14.5" cy="20" r="1.8" fill="#4a3527"/><circle cx="25.5" cy="20" r="1.8" fill="#4a3527"/>
+      <ellipse cx="20" cy="25.5" rx="4.5" ry="3.5" fill="#f6ecd9"/><circle cx="20" cy="24.5" r="1.5" fill="#4a3527"/>
+    </svg>
+    <b style="font-family:var(--f-display);font-size:1.1rem;color:var(--hero-ink)">Sweet Bear Boba</b>
+  </div>
+  <p style="max-width:34ch;margin:0 auto;font-family:var(--f-round);font-size:.9rem">Family-owned bears &amp; boba, made by hand in Allen, Texas.</p>
+  <div class="socials">
+    <a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Facebook</a>
+  </div>
+  <p class="fine">© 2026 Sweet Bear Boba · This is a website mock-up. Names, prices &amp; contact details are placeholders. 🐻🌿</p>
+</footer>
+
+<script>
+(function () {
+  /* ---------- theme toggle ---------- */
+  var root = document.documentElement, btn = document.getElementById('themeBtn');
+  function apply(t){ root.setAttribute('data-theme', t); btn.textContent = t === 'dark' ? '☀️ Bright' : '🌙 Cozy'; }
+  btn.addEventListener('click', function () {
+    var cur = root.getAttribute('data-theme');
+    if (!cur) cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    apply(cur === 'dark' ? 'light' : 'dark');
+  });
+
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- reveal on scroll ---------- */
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
+
+  /* ---------- leaf drawing helpers ---------- */
+  function leaf(ctx, x, y, size, angle, col) {
+    ctx.save();
+    ctx.translate(x, y); ctx.rotate(angle);
+    ctx.fillStyle = col;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(size * 0.5, -size * 0.55, size * 0.55, -size * 1.25, 0, -size * 1.7);
+    ctx.bezierCurveTo(-size * 0.55, -size * 1.25, -size * 0.5, -size * 0.55, 0, 0);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,0.10)'; ctx.lineWidth = 0.8;
+    ctx.beginPath(); ctx.moveTo(0, -size * 0.1); ctx.lineTo(0, -size * 1.55); ctx.stroke();
+    ctx.restore();
+  }
+  var GREENS = ['#3f5c34', '#4d6e3d', '#5e7c4c', '#6f9057', '#87a56a', '#37502e'];
+
+  /* Ivy wall canvas: dense scatter of leaves over an area, with gentle sway */
+  function ivyWall(canvas, density, animate) {
+    var ctx = canvas.getContext('2d'), leaves = [], W, H, dpr;
+    function size() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    }
+    function build() {
+      leaves = [];
+      var n = Math.round((W * H) / density);
+      for (var i = 0; i < n; i++) {
+        leaves.push({
+          x: Math.random() * W, y: Math.random() * H,
+          s: 7 + Math.random() * 13,
+          a: Math.random() * Math.PI * 2,
+          c: GREENS[(Math.random() * GREENS.length) | 0],
+          ph: Math.random() * Math.PI * 2,
+          sp: 0.6 + Math.random() * 0.8
+        });
+      }
+      leaves.sort(function (p, q) { return p.s - q.s; });
+    }
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < leaves.length; i++) {
+        var l = leaves[i];
+        var sway = animate ? Math.sin(t * 0.0006 * l.sp + l.ph) * 0.12 : 0;
+        leaf(ctx, l.x, l.y, l.s, l.a + sway, l.c);
+      }
+    }
+    size();
+    window.addEventListener('resize', size);
+    if (animate && !reduce) {
+      (function loop(t) { draw(t); requestAnimationFrame(loop); })(0);
+    } else { draw(0); }
+  }
+
+  /* Hero ivy: leaves clustered toward top & sides, trailing down like a wall */
+  function ivyHero(canvas) {
+    var ctx = canvas.getContext('2d'), leaves = [], W, H, dpr;
+    function size() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    }
+    function build() {
+      leaves = [];
+      var n = Math.round((W * H) / 2600);
+      for (var i = 0; i < n; i++) {
+        // bias density toward the top and the left/right edges
+        var edge = Math.random();
+        var x = Math.random() * W;
+        var topBias = Math.pow(Math.random(), 1.7); // more near top
+        var y = topBias * H * 0.85;
+        if (edge < 0.28) { x = Math.random() * W * 0.24; y = Math.random() * H; }
+        else if (edge < 0.5) { x = W - Math.random() * W * 0.22; y = Math.random() * H; }
+        leaves.push({
+          x: x, y: y, s: 8 + Math.random() * 16,
+          a: (Math.random() - 0.5) * 1.2 + Math.PI, // hang downward-ish
+          c: GREENS[(Math.random() * GREENS.length) | 0],
+          ph: Math.random() * Math.PI * 2, sp: 0.5 + Math.random()
+        });
+      }
+      leaves.sort(function (p, q) { return p.s - q.s; });
+    }
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < leaves.length; i++) {
+        var l = leaves[i];
+        var sway = reduce ? 0 : Math.sin(t * 0.0005 * l.sp + l.ph) * 0.1;
+        ctx.globalAlpha = 0.55 + (l.s / 24) * 0.45;
+        leaf(ctx, l.x, l.y, l.s, l.a + sway, l.c);
+      }
+      ctx.globalAlpha = 1;
+    }
+    size();
+    window.addEventListener('resize', size);
+    if (!reduce) { (function loop(t) { draw(t); requestAnimationFrame(loop); })(0); }
+    else { draw(0); }
+  }
+
+  ivyHero(document.getElementById('ivy'));
+  ivyWall(document.getElementById('ivywall'), 900, true);
+  ivyWall(document.getElementById('ivyvisit'), 2200, true);
+
+  /* ---------- garland SVG (hanging leaves along a swag line) ---------- */
+  function garland(svg, flip) {
+    var W = 1200, H = 46, parts = [];
+    var swag = 'M0 6 ';
+    var seg = 60;
+    for (var x = 0; x <= W; x += seg) {
+      swag += 'Q ' + (x + seg / 2) + ' 22 ' + (x + seg) + ' 6 ';
+    }
+    parts.push('<path d="' + swag + '" fill="none" stroke="#4d6e3d" stroke-width="2.5"/>');
+    for (var i = 0; i <= W; i += 26) {
+      var yy = 6 + Math.abs(Math.sin((i / seg) * Math.PI)) * 15;
+      var c = GREENS[(i / 26) % GREENS.length | 0];
+      var len = 10 + (i % 3) * 4;
+      parts.push('<path d="M' + i + ' ' + yy + ' q -5 ' + len * 0.6 + ' 0 ' + len + ' q 5 -' + len * 0.6 + ' 0 -' + len + '" fill="' + c + '"/>');
+    }
+    svg.innerHTML = parts.join('');
+  }
+  garland(document.getElementById('garlandTop'), false);
+  garland(document.getElementById('garlandBot'), true);
+})();
+</script>
